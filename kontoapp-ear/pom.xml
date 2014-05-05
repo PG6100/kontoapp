@@ -1,0 +1,35 @@
+<project>
+    <artifactId>kontoapp-ear</artifactId>
+    <groupId>no.nith.pg6100</groupId>
+    <version>1</version>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>ear</packaging>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>2.9</version>
+                <configuration>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <skinnyWars>true</skinnyWars>
+                    <version>5</version>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <artifactId>kontoapp-ejb</artifactId>
+            <groupId>no.nith.pg6100</groupId>
+            <version>1</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <artifactId>kontoapp-war</artifactId>
+            <groupId>no.nith.pg6100</groupId>
+            <version>1</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+</project>
