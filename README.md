@@ -15,6 +15,10 @@ Nummer to å bygge vil være war modulen. Siden vi har nå bygget ejb modulen, k
 
 Sist skal vi bygge ear modulen. Her skal vi kjøre `mvn package`. Den endelige ear filen skal deployes til Glassfish (enten fra kommandolinje eller fra GUI til administrasjonskonsollet).
 
+Etter at man har deployet uten feil til Glassfish, kan man browse sidene [http://localhost:8080/kontoapp-war/](http://localhost:8080/kontoapp-war/ "Kontoapp")
+
+
+
 Kontoapp-client modulen er ment som demo av JMS.
 
 
