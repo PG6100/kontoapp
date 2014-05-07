@@ -34,17 +34,22 @@ public class AccountServlet extends HttpServlet {
             final Account a = constructAccountFromRequest(req);
             ejb.save(a);
             out.println("Saved!");
-            final Connection con = conFac.createConnection();
-            try {
-                sendMessage(a, con);
-            } finally {
-                con.close();
-            }
+            connectAndSendJMSMessage(a);
+            doGet(req,resp);
         } catch (Exception e) {
             e.printStackTrace();
             out.println(e);
         }
         out.close();
+    }
+
+    private void connectAndSendJMSMessage(Account a) throws JMSException {
+        final Connection con = conFac.createConnection();
+        try {
+            sendMessage(a, con);
+        } finally {
+            con.close();
+        }
     }
 
     private void sendMessage(Account a, Connection con) throws JMSException {
@@ -64,7 +69,7 @@ public class AccountServlet extends HttpServlet {
     }
 
     private Account constructAccountFromRequest(HttpServletRequest req) {
-        final Account a=new Account();
+        final Account a = new Account();
         a.setAccountName(req.getParameter("name"));
         a.setPin(Integer.parseInt(req.getParameter("pin")));
         a.setAccountNumber(Integer.parseInt(req.getParameter("accountNumber")));
@@ -76,12 +81,38 @@ public class AccountServlet extends HttpServlet {
         System.out.println("========================================");
         Map<String, String[]> parameterMap = req.getParameterMap();
         for (Map.Entry<String, String[]> en : parameterMap.entrySet()) {
-            System.out.println(en.getKey()+":"+ Arrays.toString(en.getValue()));
+            System.out.println(en.getKey() + ":" + Arrays.toString(en.getValue()));
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGetJSP(req, resp);
+        //doGetHTML(req,resp);
+    }
+
+    private void doGetJSP(HttpServletRequest req, HttpServletResponse resp) {
+        final List<Account> allAccounts = ejb.getAllAccounts();
+        try {
+            req.setAttribute("allAccounts",allAccounts);
+            req.getRequestDispatcher("/WEB-INF/jsp/allAccounts.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                final PrintWriter writer = resp.getWriter();
+                try {
+                    writer.println(e);
+                } finally {
+                    writer.close();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+        }
+    }
+
+    protected void doGetHTML(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final PrintWriter out = resp.getWriter();
         try {
             final List<Account> allAccounts = ejb.getAllAccounts();
