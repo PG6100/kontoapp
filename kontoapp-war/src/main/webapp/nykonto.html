@@ -1,0 +1,42 @@
+<html>
+<head><title>Ny konto</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0-rc-1/pure-min.css">
+</head>
+<body>
+<div><h2>Opprett ny konto</h2></div>
+
+<div>
+    <form action="account" method="post" class="pure-form pure-form-aligned">
+        <fieldset>
+            <div class="pure-control-group">
+                <label for="name">Kontonavn</label>
+                <input id="name" name="name" type="text" placeholder="Navn p&aring; konto">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="name">Kontonummer</label>
+                <input id="accountNumber" name="accountNumber" type="text" placeholder="Kontonummer">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="pin">PIN</label>
+                <input id="pin" name="pin" type="password" placeholder="PIN kode">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="accountType">Kontotype</label>
+                <select name="accountType" id="accountType">
+                    <option value="-1">Velg...</option>
+                    <option value="saving">Sparekonto</option>
+                    <option value="checking">L&oslash;nnskonto</option>
+                    <option value="bsu">BSU</option>
+                </select>
+            </div>
+            <div class="pure-controls">
+                <button type="submit" class="pure-button pure-button-primary">Submit</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>
