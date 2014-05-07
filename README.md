@@ -45,3 +45,6 @@ Se liste over tabeller:
 Se datadefinisjonen til tabellen:
 
     describe account;
+
+
+Mer tips finner du her:   [http://www.vogella.com/tutorials/ApacheDerby/article.html](http://www.vogella.com/tutorials/ApacheDerby/article.html "Title")
