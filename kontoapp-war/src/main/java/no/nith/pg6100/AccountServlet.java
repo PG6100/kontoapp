@@ -38,7 +38,7 @@ public class AccountServlet extends HttpServlet {
             doGet(req,resp);
         } catch (Exception e) {
             e.printStackTrace();
-            out.println(e);
+            forwardError(e,req, resp);
         }
         out.close();
     }
@@ -95,21 +95,16 @@ public class AccountServlet extends HttpServlet {
         final List<Account> allAccounts = ejb.getAllAccounts();
         try {
             req.setAttribute("allAccounts",allAccounts);
-            req.getRequestDispatcher("/WEB-INF/jsp/allAccounts.jsp").forward(req, resp);
+            forward("allAccounts.jsp",req,resp);
         } catch (Exception e) {
             e.printStackTrace();
-            try {
-                final PrintWriter writer = resp.getWriter();
-                try {
-                    writer.println(e);
-                } finally {
-                    writer.close();
-                }
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
+            forwardError(e,req, resp);
         }
+    }
+
+    private void forwardError(Exception e, HttpServletRequest req, HttpServletResponse resp) {
+        req.setAttribute("error",e);
+        forward("error.jsp",req,resp);
     }
 
     protected void doGetHTML(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -123,10 +118,19 @@ public class AccountServlet extends HttpServlet {
             s.append("</body></html>");
             out.println(s);
         } catch (Exception e) {
-            out.println(e);
+            req.setAttribute("error",e);
+            forwardError(e, req, resp);
         } finally {
             out.close();
         }
 
+    }
+
+    private void forward(String path, HttpServletRequest req,HttpServletResponse resp) {
+        try {
+            req.getRequestDispatcher("/WEB-INF/jsp/"+path).forward(req, resp);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 }
